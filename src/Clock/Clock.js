@@ -1,6 +1,7 @@
 import React from "react";
 import { Component } from "react";
 import { getCurrentTime } from "./getCurrentTime";
+import { unmountComponentAtNode, render } from "react-dom";
 
 class Clock extends Component {
   constructor(props) {
@@ -17,8 +18,13 @@ class Clock extends Component {
     );
   }
 
-  close(e) {
+  componentWillUnmount() {
+    console.log("unmounted");
     clearInterval(this.ticking);
+  }
+
+  close(e) {
+    unmountComponentAtNode(document.getElementById("root"));
   }
 
   render() {

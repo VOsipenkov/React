@@ -12,7 +12,7 @@ const styles = {
 
 const App = () => (
   <div style={styles}>
-    <Applic />
+    <Clock />
   </div>
 );
 
