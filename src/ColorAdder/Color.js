@@ -10,13 +10,31 @@ export class Color extends React.Component {
     this.style = { backgroundColor: "#CCC" };
   }
 
-  componentWillUpdate() {
-    this.style = null;
+  componentWillUpdate(nextProps) {
+    const { rating, title } = this.props;
+    const nextRating = this.props.rating;
+
+    this.refs._title.style.backgroundColor = "red";
+    this.refs._title.style.color = "white";
+    alert(`component ${title} was changed`);
   }
 
-  shoultComponentUpdate(nextProps) {
+  componentDidUpdate(prevProps) {
+    this.refs._title.style.backgroundColor = "";
+    this.refs._title.style.color = "black";
+    console.log("componentDidUpdate");
+
+    const { rating, title } = prevProps;
+    if (this.props.rating > rating) {
+      console.log(`${this.props.title} became better`);
+    } else if (this.props.rating < rating) {
+      console.log(`${this.props.title} became worse`);
+    }
+  }
+
+  shouldComponentUpdate(nextProps) {
     const { rating } = this.props;
-    rating !== nextProps.rating;
+    return rating !== nextProps.rating;
   }
 
   render() {
@@ -26,7 +44,7 @@ export class Color extends React.Component {
         <div>
           <div className="color" style={this.style}>
             <div>
-              <div>
+              <div ref="_title">
                 {title}
                 <button onClick={doRemove} className="remove">
                   x
