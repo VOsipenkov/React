@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "react-dom";
+import ReactDOM from "react-dom";
 import Applic from "./ColorAdder/Applic";
 import MemberList from "./Promise/MemberList";
 import Clock from "./Clock/Clock";
@@ -14,9 +14,10 @@ import { Expandable } from "./HOC/Expandable";
 import { ShowHideMessage } from "./HiddenMessages/ShowHideMessage";
 import { MenuButton } from "./HOC/MenuButton";
 
-// import { countDown, countDownActions } from "./Flux/CountDown";
-import { CountDownDispatcher } from "./Flux/CountDownDispatcher";
-// import CountdownStore from "/Flux/CountdownStore";
+import Countdown from "./Flux/CountDown";
+import countDownActions from "./Flux/CountDownActions";
+import CountDownDispatcher from "./Flux/CountDownDispatcher";
+import CountdownStore from "./Flux/CountdownStore";
 
 const styles = {
   fontFamily: "sans-serif",
@@ -32,6 +33,16 @@ const CountriesList = DataComponent(
 const CollapseMessage = Expandable(ShowHideMessage);
 const ExpandByButton = Expandable(MenuButton);
 
-const App = count => <div style={styles} />;
+const dispatcher = new CountDownDispatcher();
+const actions = countDownActions(dispatcher);
+const store = new CountdownStore(dispatcher, 10);
 
-render(<App />, document.getElementById("root"));
+const render = count =>
+  ReactDOM.render(
+    <Countdown count={count} {...actions} />,
+    document.getElementById("root")
+  );
+
+store.on("TICK", () => render(store.count));
+store.on("RESET", () => render(store.count));
+render(store.count);

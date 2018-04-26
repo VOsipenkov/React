@@ -1,6 +1,6 @@
 import React from "react";
 
-export const countdown = ({ count, tick, reset }) => {
+const countdown = ({ count, tick, reset }) => {
   if (count) {
     setTimeout(() => tick(), 1000);
   }
@@ -14,14 +14,4 @@ export const countdown = ({ count, tick, reset }) => {
   );
 };
 
-export const countdownActions = dispatcher => ({
-  tick(currentCount) {
-    dispatcher.handleAction({ type: "TICK" });
-  },
-  reset(count) {
-    dispatcher.handleAction({
-      type: "RESET",
-      count
-    });
-  }
-});
+export default countdown;
