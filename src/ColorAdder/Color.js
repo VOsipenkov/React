@@ -16,7 +16,6 @@ export class Color extends React.Component {
 
     this.refs._title.style.backgroundColor = "red";
     this.refs._title.style.color = "white";
-    alert(`component ${title} was changed`);
   }
 
   componentDidUpdate(prevProps) {

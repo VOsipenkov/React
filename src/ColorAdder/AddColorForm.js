@@ -1,11 +1,22 @@
 import React from "react";
+import * as C from "../Redux/Constants";
+import { v4 } from "uuid";
+import PropTypes from "prop-types";
 
-const AddColorForm = ({ func }) => {
+const AddColorForm = (props, { store }) => {
   let _text, _color;
 
+  console.log(`addColorForm ${store}`);
   const submit = e => {
     e.preventDefault();
-    func(_text.value, _color.value);
+    store.dispatch({
+      type: C.ADD_COLOR,
+      id: v4(),
+      title: _text.value,
+      color: _color.value,
+      rating: 0
+    });
+
     _text.value = "";
     _color.value = "#11122";
   };
@@ -22,6 +33,10 @@ const AddColorForm = ({ func }) => {
       <button>ADD</button>
     </form>
   );
+};
+
+AddColorForm.contextTypes = {
+  store: PropTypes.string.isRequired
 };
 
 export default AddColorForm;
